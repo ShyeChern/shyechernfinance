@@ -6,4 +6,4 @@ dotenv.config();
 export const secret = btoa(`${process.env.REACT_APP_AUTH_NAME}:${process.env.REACT_APP_AUTH_PASS + process.env.REACT_APP_AUTH_SALT}`);
 
 // export const baseUrl = 'http://127.0.0.1:5000/api/';
-export const baseUrl = 'https://shyechernbackend.herokuapp.com/api';
+export const baseUrl = 'https://shyechernbackend.herokuapp.com/api/';
