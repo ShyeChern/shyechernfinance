@@ -14,8 +14,8 @@ export default function App() {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const loginResult = await fetch(baseUrl + 'checkLogin', {
-        method: 'get',
+      const loginResult = await fetch(baseUrl + 'user/checkLogin', {
+        method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export default function App() {
         if (res.ok) {
           return res.json();
         } else {
-          return Promise.reject(res.status + " " + res.statusText);
+          return Promise.reject(res.status + " " + res.statusText );
         }
       })
         .then((resBody) => {
@@ -50,7 +50,7 @@ export default function App() {
     return (
       <Route {...rest} render={() => {
         // hide loading just let it
-        return true ? (children) : isLoading ? (<div></div>) : (<Redirect to={{ pathname: "/login" }} />);
+        return isLogin ? (children) : isLoading ? (<div></div>) : (<Redirect to={{ pathname: "/" }} />);
       }} />
     );
   }
