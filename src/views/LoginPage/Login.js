@@ -13,37 +13,36 @@ export default function LoginPage(props) {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  // useEffect(() => {
-  //   fetch(baseUrl + 'user/checkLogin', {
-  //     method: 'post',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json',
-  //       authorization: 'Basic ' + secret,
-  //       timestamp: new Date().getTime(),
-  //     },
-  //     credentials: 'include',
-  //   }).then((res) => {
+  useEffect(() => {
+    fetch(baseUrl + 'user/checkLogin', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        authorization: 'Basic ' + secret,
+        timestamp: new Date().getTime(),
+      },
+      credentials: 'include',
+    }).then((res) => {
 
-  //     if (res.ok) {
-  //       return res.json();
-  //     } else {
-  //       return Promise.reject(res.status + " " + res.statusText);
-  //     }
-  //   })
-  //     .then((resBody) => {
-  //       // prompt user
-  //       if (resBody.result) {
-  //         setIsLoading(true);
-  //         setInstruction(resBody.message);
-  //         setTimeout(() => window.location.href = '/finance', 3000);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
+      if (res.ok) {
+        return res.json();
+      }
+    })
+      .then((resBody) => {
+        // prompt user
+        if (resBody.result) {
+          setIsLoading(true);
+          setInstruction(resBody.message);
+          setTimeout(() => window.location.href = '/finance', 3000);
+        }
+      })
+      .catch((error) => {
+        // no need handle if no cookie
+        // console.error(error);
+      });
 
-  // }, [])
+  }, [])
 
   const login = async () => {
 
@@ -52,7 +51,7 @@ export default function LoginPage(props) {
     } else {
       setIsLoading(true);
       setInstruction('Loading...');
-      await fetch(baseUrl + 'user/checklogin', {
+      await fetch(baseUrl + 'user/login', {
         method: 'post',
         headers: {
           Accept: 'application/json',
