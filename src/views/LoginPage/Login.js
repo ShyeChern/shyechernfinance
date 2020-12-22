@@ -26,7 +26,6 @@ export default function Login(props) {
       },
       credentials: 'include',
     }).then((res) => {
-
       if (res.ok) {
         return res.json();
       }
