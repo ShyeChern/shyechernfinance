@@ -34,7 +34,6 @@ export default function App() {
         }
       })
         .then((resBody) => {
-          console.log(resBody.data.role);
           setRole(resBody.data.role);
           return resBody.result;
         })
@@ -54,18 +53,25 @@ export default function App() {
 
   const PrivateRoute = ({ children, roleAccess, ...rest }) => {
 
-    if (roleAccess.includes(role)) {
-      return (
-        <Route {...rest} render={() => {
-          // hide loading just let it
-          return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
-        }} />
-      )
-    } else {
-      document.cookie = "shyechern=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      window.location.href = '/';
-      return (<Route {...rest} render={() => (<Redirect to={{ pathname: "/" }} />)} />)
-    }
+    return (
+      <Route {...rest} render={() => {
+        // hide loading just let it
+        return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
+      }} />
+    )
+
+    // if (roleAccess.includes(role)) {
+    //   return (
+    //     <Route {...rest} render={() => {
+    //       // hide loading just let it
+    //       return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
+    //     }} />
+    //   )
+    // } else {
+    //   document.cookie = "shyechern=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    //   window.location.href = '/';
+    //   return (<Route {...rest} render={() => (<Redirect to={{ pathname: "/" }} />)} />)
+    // }
   }
 
   return (
