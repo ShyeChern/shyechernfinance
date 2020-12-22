@@ -34,6 +34,7 @@ export default function App() {
         }
       })
         .then((resBody) => {
+          console.log(resBody.data.role);
           setRole(resBody.data.role);
           return resBody.result;
         })
