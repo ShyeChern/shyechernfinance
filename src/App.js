@@ -18,7 +18,7 @@ export default function App() {
   useEffect(() => {
     const checkLogin = async () => {
       const loginResult = await fetch(baseUrl + 'user/checkLogin', {
-        method: 'post',
+        method: 'get',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -55,7 +55,6 @@ export default function App() {
 
     return (
       <Route {...rest} render={() => {
-        // hide loading just let it
         return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
       }} />
     )

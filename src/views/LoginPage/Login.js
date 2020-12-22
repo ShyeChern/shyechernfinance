@@ -17,7 +17,7 @@ export default function Login(props) {
 
   useEffect(() => {
     fetch(baseUrl + 'user/checkLogin', {
-      method: 'post',
+      method: 'get',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
