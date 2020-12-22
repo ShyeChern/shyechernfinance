@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-// bootstrap form
+// bootstrap
 import { Container, Col, Row, Form, Alert, Button } from 'react-bootstrap';
 //background image
 import backgroundImage from "assets/img/articleBackground.jpg";
+// footer
+import Footer from 'views/Component/Footer';
 // base url
 import { baseUrl, secret } from "util/constant.js";
 
-export default function LoginPage(props) {
+export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [instruction, setInstruction] = useState("");
@@ -74,12 +76,17 @@ export default function LoginPage(props) {
         .then((resBody) => {
           if (resBody.result) {
             window.location.href = '/finance';
+            localStorage.setItem("scUserId", resBody.data.id);
           } else {
             setInstruction(resBody.message);
           }
         })
         .catch((error) => {
-          error.then(err => setInstruction(err.message));
+          if (error.message) {
+            setInstruction(error.message);
+          } else {
+            error.then(err => setInstruction(err.message));
+          }
         });
       setIsLoading(false);
     }
@@ -122,6 +129,7 @@ export default function LoginPage(props) {
           </Col>
         </Row>
       </Container>
+      <Footer />
 
     </div>
   )
