@@ -45,8 +45,8 @@ export default function App() {
       setIsLoading(false);
     };
     checkLogin();
-    setIsLogin(true);
-    setIsLoading(false);
+    // setIsLogin(true);
+    // setIsLoading(false);
     return () => {
     }
   }, [])
