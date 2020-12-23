@@ -1,10 +1,40 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { baseUrl, secret } from "util/constant.js";
 
 export default function Header(props) {
   const logout = () => {
-    document.cookie = "shyechern=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = '/';
+    fetch(baseUrl + `user/logout/${localStorage.getItem('scUserId')}`, {
+      method: 'put',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        authorization: 'Basic ' + secret,
+        timestamp: new Date().getTime(),
+      },
+      credentials: 'include',
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return Promise.reject(res.json());
+      }
+    })
+      .then((resBody) => {
+        if (resBody.result) {
+          document.cookie = "shyechern=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          window.location.href = '/';
+        } else {
+          // setInstruction(resBody.message);
+        }
+      })
+      .catch((error) => {
+        if (error.message) {
+          // setInstruction(error.message);
+        } else {
+          // error.then(err => setInstruction(err.message));
+        };
+      });
   }
   const { role } = props;
 
