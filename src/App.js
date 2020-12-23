@@ -44,9 +44,15 @@ export default function App() {
       setIsLogin(loginResult);
       setIsLoading(false);
     };
-    checkLogin();
-    // setIsLogin(true);
-    // setIsLoading(false);
+
+    if (process.env.REACT_APP_ENVIRONMENT === 'Live') {
+      checkLogin();
+    } else if (process.env.REACT_APP_ENVIRONMENT === 'Local') {
+      setRole('User');
+      setIsLogin(true);
+      setIsLoading(false);
+    }
+
     return () => {
     }
   }, [])
@@ -58,7 +64,6 @@ export default function App() {
         return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
       }} />
     )
-
     // if (roleAccess.includes(role)) {
     //   return (
     //     <Route {...rest} render={() => {

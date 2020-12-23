@@ -31,7 +31,7 @@ export default function Login(props) {
       }
     })
       .then((resBody) => {
-        // prompt user
+        // prompt user auto login success
         if (resBody.result) {
           setIsLoading(true);
           setInstruction(resBody.message);
@@ -40,7 +40,6 @@ export default function Login(props) {
       })
       .catch((error) => {
         // no need handle if no cookie
-        // console.error(error);
       });
 
   }, [])
