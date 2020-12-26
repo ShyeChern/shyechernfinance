@@ -22,7 +22,7 @@ export default function Header(props) {
     })
       .then((resBody) => {
         if (resBody.result) {
-          document.cookie = "shyechern=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          localStorage.removeItem('scUserId');
           window.location.href = '/';
         } else {
           // setInstruction(resBody.message);

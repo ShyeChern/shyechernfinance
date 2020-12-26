@@ -48,7 +48,6 @@ export default function App() {
     if (process.env.REACT_APP_ENVIRONMENT === 'Live') {
       checkLogin();
     } else if (process.env.REACT_APP_ENVIRONMENT === 'Local') {
-      setRole('User');
       setIsLogin(true);
       setIsLoading(false);
     }
@@ -58,12 +57,12 @@ export default function App() {
   }, [])
 
   const PrivateRoute = ({ children, roleAccess, ...rest }) => {
-
     return (
       <Route {...rest} render={() => {
-        return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
+        return (isLogin && roleAccess.includes(role)) ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
       }} />
     )
+
     // if (roleAccess.includes(role)) {
     //   return (
     //     <Route {...rest} render={() => {
@@ -72,8 +71,6 @@ export default function App() {
     //     }} />
     //   )
     // } else {
-    //   document.cookie = "shyechern=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    //   window.location.href = '/';
     //   return (<Route {...rest} render={() => (<Redirect to={{ pathname: "/" }} />)} />)
     // }
   }
