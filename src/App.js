@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import ScrollToTop from "util/scrollToTop";
+import { Spinner } from 'react-bootstrap';
 
 import PageNotFoundPage from "views/Reuse/PageNotFound.js";
 import Login from "views/LoginPage/Login.js";
@@ -48,6 +49,7 @@ export default function App() {
     if (process.env.REACT_APP_ENVIRONMENT === 'Live') {
       checkLogin();
     } else if (process.env.REACT_APP_ENVIRONMENT === 'Local') {
+      setRole('Admin');
       setIsLogin(true);
       setIsLoading(false);
     }
@@ -56,23 +58,17 @@ export default function App() {
     }
   }, [])
 
-  const PrivateRoute = ({ children, roleAccess, ...rest }) => {
+  const PrivateRoute = ({ component: Component, roleAccess, ...rest }) => {
     return (
-      <Route {...rest} render={() => {
-        return (isLogin && roleAccess.includes(role)) ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
+      <Route {...rest} role={role} render={() => {
+        return (isLogin && roleAccess.includes(role)) ? <Component role={role} /> : isLoading ?
+          (<div style={{ textAlign: 'center' }}>
+            <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>
+          </div>)
+          :
+          (<Redirect to={{ pathname: "/" }} />);
       }} />
     )
-
-    // if (roleAccess.includes(role)) {
-    //   return (
-    //     <Route {...rest} render={() => {
-    //       // hide loading just let it
-    //       return isLogin ? (children) : isLoading ? (<div style={{ textAlign: 'center' }}>Checking Session...</div>) : (<Redirect to={{ pathname: "/" }} />);
-    //     }} />
-    //   )
-    // } else {
-    //   return (<Route {...rest} render={() => (<Redirect to={{ pathname: "/" }} />)} />)
-    // }
   }
 
   return (
@@ -82,8 +78,8 @@ export default function App() {
         <Switch>
           <Route exact path="/pagenotfound" component={PageNotFoundPage} />
           <Route exact path="/" component={Login} />
-          <PrivateRoute exact roleAccess={['Admin', 'User']} path="/finance"><Finance /> </PrivateRoute>
-          <PrivateRoute exact roleAccess={['Admin']} path="/market"><Market /> </PrivateRoute>
+          <PrivateRoute exact roleAccess={['Admin', 'User']} path="/finance" component={Finance} />
+          <PrivateRoute exact roleAccess={['Admin']} path="/market" component={Market} />
 
           {/* capture invalid route */}
           <Route render={() => <Redirect to={{ pathname: "/pagenotfound" }} />} />

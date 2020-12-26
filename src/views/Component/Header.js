@@ -24,16 +24,10 @@ export default function Header(props) {
         if (resBody.result) {
           localStorage.removeItem('scUserId');
           window.location.href = '/';
-        } else {
-          // setInstruction(resBody.message);
         }
       })
       .catch((error) => {
-        if (error.message) {
-          // setInstruction(error.message);
-        } else {
-          // error.then(err => setInstruction(err.message));
-        };
+        console.error(error.message);
       });
   }
   const { role } = props;

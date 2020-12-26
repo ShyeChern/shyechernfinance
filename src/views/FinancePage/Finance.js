@@ -8,7 +8,6 @@ import { parseISO, format } from "date-fns";
 
 export default function Finance(props) {
 
-  const [role, setRole] = useState('loading...');
   const [symbol, setSymbol] = useState('');
   const [riskFreeRate, setRiskFreeRate] = useState('loading...');
   const [marketReturnRate, setMarketReturnRate] = useState('loading...');
@@ -81,7 +80,6 @@ export default function Finance(props) {
         if (resBody) {
           let stockData = [];
           setUsername(resBody.data.username);
-          setRole(resBody.data.role);
           resBody.data.stock.forEach(value => {
             stockData.push(value);
           });
@@ -206,13 +204,12 @@ export default function Finance(props) {
       </Modal>
     );
   }
-
   return (
     <div style={style.container}>
-      <Header role={role} />
+      <Header role={props.role} />
       <Container >
         <Row>
-          <b>Hi, {role} {username}</b>
+          <b>Hi, {username}</b>
         </Row>
         <Row className="justify-content-center pt-2">
           <Col md={6} className="text-right"><p><b>Current Market Return Rate:</b> {marketReturnRate}</p></Col>

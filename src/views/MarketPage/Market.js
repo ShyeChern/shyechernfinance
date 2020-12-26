@@ -145,68 +145,6 @@ export default function Market(props) {
     }
   }
 
-  const deleteStock = () => {
-    setShowDeleteModal(false);
-    setInstruction('Deleting Stock...');
-    fetch(baseUrl + `stock/deleteStock/${localStorage.getItem('scUserId')}`, {
-      method: 'put',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        authorization: 'Basic ' + secret,
-        timestamp: new Date().getTime(),
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        stockId: deleteStockData.id
-      }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(res.json());
-      }
-    })
-      .then((resBody) => {
-        if (resBody.result) {
-          setInstruction(resBody.message);
-          let stockData = [];
-          resBody.data.stock.forEach(value => {
-            stockData.push(value);
-          });
-          setStock(stockData);
-        } else {
-          setInstruction(resBody.message);
-        }
-      })
-      .catch((error) => {
-        if (error.message) {
-          setInstruction(error.message);
-        } else {
-          error.then(err => setInstruction(err.message));
-        };
-      });
-  }
-
-  const deleteConfirmationModal = () => {
-    return (
-      <Modal size="lg" centered show={showDeleteModal}>
-        <Modal.Header closeButton onClick={() => setShowDeleteModal(false)}>
-          <Modal.Title>
-            Delete Confirmation
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Confirm delete <b>{deleteStockData.name}</b> in your list?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant={'secondary'} onClick={() => setShowDeleteModal(false)}>Close</Button>
-          <Button onClick={() => deleteStock()}>Confirm</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
   return (
     <div style={style.container}>
       <Header role={role} />
@@ -223,55 +161,6 @@ export default function Market(props) {
         </Row>
         <Row className="justify-content-center">
           <Alert variant="warning" transition={false} dismissible={true} show={instruction !== ''} onClose={() => setInstruction('')}>{instruction}</Alert>
-        </Row>
-        <Row >
-          <Form onSubmit={(e) => { e.preventDefault(); addStock(); }} >
-            <Form.Group controlId="symbol">
-              <Form.Row>
-                <Form.Label column={true} md={5} style={{ alignSelf: 'center' }}>Add New Stock into List: </Form.Label>
-                <Col >
-                  <Form.Control type="text" placeholder="Symbol" value={symbol} onChange={(e) => setSymbol(e.target.value)} />
-                </Col>
-                <Col >
-                  <Button color="danger" type="submit" disabled={symbol === ''}>Add</Button>
-                </Col>
-              </Form.Row>
-            </Form.Group>
-          </Form>
-        </Row>
-        <Row >
-          <Table striped bordered hover size="sm" responsive={true} style={{ textAlign: 'center' }}>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Ticker Symbol</th>
-                <th>Name</th>
-                <th>Beta</th>
-                <th>Last Updated Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                stock.length === 0 ?
-                  <tr><td colSpan={6} >Currently there is no stock data in your list</td></tr>
-                  :
-                  stock.map((value, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{value.symbol}</td>
-                        <td>{value.name}</td>
-                        <td>{value.beta.$numberDecimal}</td>
-                        <td>{format(parseISO(value.updatedAt), 'dd MMM yyyy')}</td>
-                        <td><Button size={'sm'} variant={'danger'} onClick={() => { setShowDeleteModal(true); setDeleteStockData(value) }}><FaTimes title={'Delete Stock'} /></Button></td>
-                      </tr>
-                    )
-                  })
-              }
-              {deleteConfirmationModal()}
-            </tbody>
-          </Table>
         </Row>
       </Container>
       <Footer />
