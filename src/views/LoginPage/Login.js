@@ -73,7 +73,7 @@ export default function Login(props) {
         .then((resBody) => {
           if (resBody.result) {
             localStorage.setItem("scUserId", resBody.data.id);
-            // window.location.href = '/stock';
+            window.location.href = '/stock';
           } else {
             setInstruction(resBody.message);
           }

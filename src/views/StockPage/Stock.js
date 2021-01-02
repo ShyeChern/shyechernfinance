@@ -6,7 +6,7 @@ import Header from 'views/Component/Header';
 import Footer from 'views/Component/Footer';
 import { parseISO, format } from "date-fns";
 
-export default function Finance(props) {
+export default function Stock(props) {
 
   const [symbol, setSymbol] = useState('');
   const [riskFreeRate, setRiskFreeRate] = useState('loading...');
