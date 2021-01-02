@@ -77,12 +77,12 @@ export default function App() {
       <Router >
         <ScrollToTop />
         <Switch>
-          <Route exact path="/pagenotfound" component={PageNotFoundPage} />
           <Route exact path="/" component={Login} />
           <PrivateRoute exact roleAccess={['Admin', 'User']} path="/stock" component={Stock} />
           <PrivateRoute exact roleAccess={['Admin']} path="/market" component={Market} />
           <PrivateRoute exact roleAccess={['Admin', 'User']} path="/news/:symbol" component={News} />
 
+          <Route exact path="/pagenotfound" component={PageNotFoundPage} />
           {/* capture invalid route */}
           <Route render={() => <Redirect to={{ pathname: "/pagenotfound" }} />} />
         </Switch>
