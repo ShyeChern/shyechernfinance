@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spinner, Alert, Button, Form, Container, Row, Col, Modal } from 'react-bootstrap';
-import { FaTimes } from "react-icons/fa";
+import { Table, Alert, Button, Form, Container, Row, Col, Modal } from 'react-bootstrap';
+import { FaTimes, FaRegNewspaper, FaRedo } from "react-icons/fa";
 import { baseUrl, secret } from "util/constant.js";
 import Header from 'views/Component/Header';
 import Footer from 'views/Component/Footer';
@@ -44,7 +44,7 @@ export default function Finance(props) {
       }
     })
       .then((resBody) => {
-        if (resBody) {
+        if (resBody.result) {
           setMarketReturnRate(resBody.data.marketReturn.$numberDecimal);
           setRiskFreeRate(resBody.data.riskFree.$numberDecimal);
           setMarketLastUpdate(format(parseISO(resBody.data.updatedAt), 'dd MMM yyyy'));
@@ -77,7 +77,7 @@ export default function Finance(props) {
       }
     })
       .then((resBody) => {
-        if (resBody) {
+        if (resBody.result) {
           let stockData = [];
           setUsername(resBody.data.username);
           resBody.data.stock.forEach(value => {
@@ -85,13 +85,11 @@ export default function Finance(props) {
           });
           setStock(stockData);
         } else {
-          setMarketReturnRate(resBody.message);
-          setRiskFreeRate(resBody.message);
+          setUsername(resBody.message);
         }
       })
       .catch((error) => {
-        setMarketReturnRate(error.message);
-        setRiskFreeRate(error.message);
+        setUsername(error.message);
       });
   }
 
@@ -204,6 +202,49 @@ export default function Finance(props) {
       </Modal>
     );
   }
+
+  const refreshStock = (value) => {
+    setInstruction('Refreshing Stock...');
+    fetch(baseUrl + `stock/getStock/${localStorage.getItem('scUserId')}`, {
+      method: 'put',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        authorization: 'Basic ' + secret,
+        timestamp: new Date().getTime(),
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        symbol: value.symbol
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return Promise.reject(res.json());
+      }
+    })
+      .then((resBody) => {
+        if (resBody.result) {
+          setInstruction(resBody.message);
+          let stockData = [];
+          resBody.data.stock.forEach(value => {
+            stockData.push(value);
+          });
+          setStock(stockData);
+        } else {
+          setInstruction(resBody.message);
+        }
+      })
+      .catch((error) => {
+        if (error.message) {
+          setInstruction(error.message);
+        } else {
+          error.then(err => setInstruction(err.message));
+        };
+      });
+  }
+
   return (
     <div style={style.container}>
       <Header role={props.role} />
@@ -244,6 +285,8 @@ export default function Finance(props) {
                 <th>Ticker Symbol</th>
                 <th>Name</th>
                 <th>Beta</th>
+                <th>Actual Return (5 years)</th>
+                <th>Required Return (5 years)</th>
                 <th>Last Updated Date</th>
                 <th>Action</th>
               </tr>
@@ -251,7 +294,7 @@ export default function Finance(props) {
             <tbody>
               {
                 stock.length === 0 ?
-                  <tr><td colSpan={6} >Currently there is no stock data in your list</td></tr>
+                  <tr><td colSpan={8} >Currently there is no stock data in your list</td></tr>
                   :
                   stock.map((value, index) => {
                     return (
@@ -260,8 +303,14 @@ export default function Finance(props) {
                         <td>{value.symbol}</td>
                         <td>{value.name}</td>
                         <td>{value.beta.$numberDecimal}</td>
+                        <td>{value.actualReturn.$numberDecimal}</td>
+                        <td>{(parseFloat(riskFreeRate) + (parseFloat(value.beta.$numberDecimal) * (parseFloat(marketReturnRate) - parseFloat(riskFreeRate)))).toFixed(4)}</td>
                         <td>{format(parseISO(value.updatedAt), 'dd MMM yyyy')}</td>
-                        <td><Button size={'sm'} variant={'danger'} onClick={() => { setShowDeleteModal(true); setDeleteStockData(value) }}><FaTimes title={'Delete Stock'} /></Button></td>
+                        <td>
+                          <Button size={'sm'} variant={'success'} onClick={() => { refreshStock(value) }}><FaRedo title={'Refresh Stock'} /></Button>
+                          <Button size={'sm'} variant={'info'} onClick={() => { window.location.href = `/news/${value.symbol}` }}><FaRegNewspaper title={'View News'} /></Button>
+                          <Button size={'sm'} variant={'danger'} onClick={() => { setShowDeleteModal(true); setDeleteStockData(value) }}><FaTimes title={'Delete Stock'} /></Button>
+                        </td>
                       </tr>
                     )
                   })

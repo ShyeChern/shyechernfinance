@@ -4,3 +4,5 @@ dotenv.config();
 
 export const baseUrl = process.env.REACT_APP_BASE_URL;
 export const secret = btoa(`${process.env.REACT_APP_AUTH_NAME}:${process.env.REACT_APP_AUTH_PASS + process.env.REACT_APP_AUTH_SALT}`);
+
+// apiKey:timestamp:signature

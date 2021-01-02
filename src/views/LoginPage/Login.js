@@ -14,7 +14,6 @@ export default function Login(props) {
   const [instruction, setInstruction] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     fetch(baseUrl + 'user/checkLogin', {
       method: 'get',
@@ -35,7 +34,7 @@ export default function Login(props) {
         if (resBody.result) {
           setIsLoading(true);
           setInstruction(resBody.message);
-          setTimeout(() => window.location.href = '/finance', 3000);
+          setTimeout(() => window.location.href = '/stock', 3000);
         }
       })
       .catch((error) => {
@@ -74,7 +73,7 @@ export default function Login(props) {
         .then((resBody) => {
           if (resBody.result) {
             localStorage.setItem("scUserId", resBody.data.id);
-            window.location.href = '/finance';
+            window.location.href = '/stock';
           } else {
             setInstruction(resBody.message);
           }

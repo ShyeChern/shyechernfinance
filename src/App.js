@@ -5,8 +5,9 @@ import { Spinner } from 'react-bootstrap';
 
 import PageNotFoundPage from "views/Reuse/PageNotFound.js";
 import Login from "views/LoginPage/Login.js";
-import Finance from "views/FinancePage/Finance.js";
+import Stock from "views/StockPage/Stock.js";
 import Market from "views/MarketPage/Market.js";
+import News from "views/NewsPage/News.js";
 
 import { baseUrl, secret } from "util/constant.js";
 
@@ -78,8 +79,9 @@ export default function App() {
         <Switch>
           <Route exact path="/pagenotfound" component={PageNotFoundPage} />
           <Route exact path="/" component={Login} />
-          <PrivateRoute exact roleAccess={['Admin', 'User']} path="/finance" component={Finance} />
+          <PrivateRoute exact roleAccess={['Admin', 'User']} path="/stock" component={Stock} />
           <PrivateRoute exact roleAccess={['Admin']} path="/market" component={Market} />
+          <PrivateRoute exact roleAccess={['Admin', 'User']} path="/news/:symbol" component={News} />
 
           {/* capture invalid route */}
           <Route render={() => <Redirect to={{ pathname: "/pagenotfound" }} />} />

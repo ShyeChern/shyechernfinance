@@ -34,15 +34,15 @@ export default function Header(props) {
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant='dark'>
-      <Navbar.Brand href="/finance">Shye Chern</Navbar.Brand>
+      <Navbar.Brand href="/stock">Shye Chern</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/finance">Finance</Nav.Link>
+          <Nav.Link href="/stock">Stock</Nav.Link>
           {
             role === 'Admin' && <Nav.Link href="/market">Update Market</Nav.Link>
           }
-          <NavDropdown title="Some Dropdown" id="collasible-nav-dropdown">
+          <NavDropdown title="Some Dropdown for Calculation?" id="collasible-nav-dropdown">
             <NavDropdown.Item href="#...">This</NavDropdown.Item>
             <NavDropdown.Item href="#...">Is</NavDropdown.Item>
             <NavDropdown.Item href="#...">Shye Chern</NavDropdown.Item>
