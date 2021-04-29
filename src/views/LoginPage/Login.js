@@ -82,6 +82,7 @@ export default function Login(props) {
           if (error.message) {
             setInstruction(error.message);
           } else {
+            console.log(error);
             error.then(err => setInstruction(err.message));
           }
         });
@@ -121,7 +122,7 @@ export default function Login(props) {
             </Row>
 
             <Row className="justify-content-center text-center">
-              <p>To sign up, contact me <a target="_blank" rel="noreferrer" href="https://shyechern.herokuapp.com/contact">here</a></p>
+              <p>To sign up, contact me <a target="_blank" rel="noreferrer" href="https://shyechern.herokuapp.com/contact">here</a> or download my app at playstore deeplinkhere</p>
             </Row>
           </Col>
         </Row>

@@ -20,11 +20,11 @@ export default function News(props) {
   ]);
   const [maxPage, setMaxPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemPerPage = 2;
+  const itemPerPage = 10;
   const { symbol } = useParams();
 
   useEffect(() => {
-    // getNewsList();
+    getNewsList();
   }, []);
 
   const getNewsList = () => {
