@@ -9,8 +9,8 @@ import Footer from 'views/Component/Footer';
 import { baseUrl, secret } from "util/constant.js";
 
 export default function Login(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("test");
+  const [password, setPassword] = useState("admin");
   const [instruction, setInstruction] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -122,7 +122,7 @@ export default function Login(props) {
             </Row>
 
             <Row className="justify-content-center text-center">
-              <p>To sign up, contact me <a target="_blank" rel="noreferrer" href="https://shyechern.herokuapp.com/contact">here</a> or download my app at playstore deeplinkhere</p>
+              <p>To sign up, contact me <a target="_blank" rel="noreferrer" href="https://shyechern.herokuapp.com/contact">here</a></p>
             </Row>
           </Col>
         </Row>
