@@ -10,14 +10,7 @@ import noImage from "assets/img/no-image.jpg";
 export default function News(props) {
 
   const [instruction, setInstruction] = useState("Loading...");
-  const [newsList, setNewsList] = useState([
-    {
-      uuid: 'd8691910-ff65-3392-96bf-7336e1426a23', title: 'hahahahahahahahahahahaha hahahaha hahahahahahahahahahahah ahahahahahahahahahaha hahahahahahah ahahahahahahahahahahahahahahahahahahahahaha',
-      summary: 'The State Teachers Retirement System of Ohio, or STRS Ohio, offloaded some Tesla Inc (NASDAQ: TSLA) and Apple Inc (NASDAQ: AAPL) shares and snapped up more of General Motors Company (NYSE: GM) and Alibaba Group Holding Ltd- ADR (NYSE: BABA) in the third quarter, Barrons reported.What Happened: According to Barrons, the pension sold 864,478 Apple shares in the third quarter (after a 4-for-1 split in August), which brought its tota',
-      published_at: 1609016226, publisher: 'haha', mainImage: 'https://s.yimg.com/uu/api/res/1.2/Zdc2_1q1nXm08QXt3qyNuQ--~B/aD00MDA7dz02MDA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/uu/api/res/1.2/Np1VB4xtCXf6eLU1sxjPkA--~B/aD00MDA7dz02MDA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Benzinga/4808fdb14bf0229c959c27471ab9778c'
-    },
-    { uuid: 'c4cc7701-cf68-3d15-b616-357474a85c60', title: 'haha', summary: '123', published_at: 1609016226, publisher: 'haha', mainImage: 'https://s.yimg.com/uu/api/res/1.2/Zdc2_1q1nXm08QXt3qyNuQ--~B/aD00MDA7dz02MDA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/uu/api/res/1.2/Np1VB4xtCXf6eLU1sxjPkA--~B/aD00MDA7dz02MDA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Benzinga/4808fdb14bf0229c959c27471ab9778c' }
-  ]);
+  const [newsList, setNewsList] = useState([]);
   const [maxPage, setMaxPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 10;
