@@ -302,9 +302,9 @@ export default function Stock(props) {
                         <td>{index + 1}</td>
                         <td>{value.symbol}</td>
                         <td>{value.name}</td>
-                        <td>{value.beta.$numberDecimal}</td>
+                        <td>{value.beta ? value.beta.$numberDecimal : '-'}</td>
                         <td>{value.actualReturn.$numberDecimal}</td>
-                        <td>{(parseFloat(riskFreeRate) + (parseFloat(value.beta.$numberDecimal) * (parseFloat(marketReturnRate) - parseFloat(riskFreeRate)))).toFixed(4)}</td>
+                        <td>{value.beta ? (parseFloat(riskFreeRate) + (parseFloat(value.beta.$numberDecimal) * (parseFloat(marketReturnRate) - parseFloat(riskFreeRate)))).toFixed(4) : '-'}</td>
                         <td>{format(parseISO(value.updatedAt), 'dd MMM yyyy')}</td>
                         <td>
                           <Button size={'sm'} variant={'success'} onClick={() => { refreshStock(value) }}><FaRedo title={'Refresh Stock'} /></Button>
