@@ -1,4 +1,4 @@
-# Shye Chern Finance (ReactJS)
+# Shye Chern Finance (ReactJS) (Abandoned)
 
 An investment website which can add stock into watchlist. Then, it can calculate and display stock information for you to use it as a guidance when review a stock. 
 
